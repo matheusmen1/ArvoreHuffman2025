@@ -56,7 +56,7 @@ void lerArqFraseCodificada(char *fraseCodificada)
 		fread(&Byte.num, sizeof(unsigned char),1, ptr);
 		while(!feof(ptr))
 		{
-			fraseCodificada[i] = Byte.bi.b0 + '0';
+			fraseCodificada[i] = Byte.bi.b0 + '0'; // converte numero para caractere
 			fraseCodificada[i+1] = Byte.bi.b1 + '0';
 			fraseCodificada[i+2] = Byte.bi.b2 + '0';
 			fraseCodificada[i+3] = Byte.bi.b3 + '0';
@@ -181,19 +181,18 @@ void decodificarFrase(Tree *raiz, char *fraseCodificada, char *fraseDecodificada
 	}
 	fclose(ptr);
 }
-void exibeh(Tree *raiz)
+void exibeh(Tree *raiz, int n)
 {	
-	
-	static int n = -1;
+	//static int n = -1;
 	if (raiz != NULL)
 	{
 		n++;
-		exibeh(raiz->dir);
+		exibeh(raiz->dir, n+1);
 		for (int i =0; i < 5*n; i++)
 			printf (" ");
 		printf ("(%d)\n",raiz->simbolo);
-		exibeh(raiz->esq);
-		n--; 
+		//exibeh(raiz->esq, n+1);
+		//n--; 
 		
 	}
 	
@@ -208,7 +207,7 @@ int main(void)
 	//printf("Frase Codificada: %s", fraseCodificada);
 	
 	construirArvoreHuffman(&raiz);
-	//exibeh(raiz);
+	exibeh(raiz,0);
 	
 	decodificarFrase(raiz, fraseCodificada, fraseDecodificada);
 	printf("----------------------------------------------------------------------------------\n");

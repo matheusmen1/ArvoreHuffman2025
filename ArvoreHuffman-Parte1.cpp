@@ -381,7 +381,7 @@ void armazenarFraseCodificada(char *fraseCodificada)
 		rewind(ptr);
 		while(fraseCodificada[i] != '\0')
 		{
-			Byte.bi.b0 = fraseCodificada[i] - '0';
+			Byte.bi.b0 = fraseCodificada[i] - '0'; // converte caractere para numero
 			Byte.bi.b1 = fraseCodificada[i+1] - '0';
 			Byte.bi.b2 = fraseCodificada[i+2] - '0';
 			Byte.bi.b3 = fraseCodificada[i+3] - '0';
@@ -458,19 +458,18 @@ void exibirFloresta(Floresta *F)
 		F = F->prox;
 	}
 }
-void exibeh(Tree *raiz)
+void exibeh(Tree *raiz, int n)
 {	
-	
-	static int n = -1;
+	//static int n = -1;
 	if (raiz != NULL)
 	{
 		n++;
-		exibeh(raiz->dir);
+		exibeh(raiz->dir, n+1);
 		for (int i =0; i < 5*n; i++)
 			printf (" ");
 		printf ("(%d,%.2f)\n",raiz->simbolo,raiz->freq);
-		exibeh(raiz->esq);
-		n--; 
+		exibeh(raiz->esq, n+1);
+		//n--; 
 		
 	}
 	
@@ -531,7 +530,7 @@ int main(void)
 	printf("----------------------------------------------------------------------------------\n");
  	printf("                            Arvore no Formato Horizontal                          \n");
 	printf("----------------------------------------------------------------------------------\n\n");
-	exibeh(F->no);
+	exibeh(F->no, 0);
 	exibirLista(L);
 	return 0;
 }
